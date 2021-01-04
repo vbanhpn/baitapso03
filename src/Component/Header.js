@@ -1,4 +1,4 @@
-
+import FormatNumber from "./FormatNumber";
 function Header (props) {
     return (
     <header className="container">
@@ -7,7 +7,7 @@ function Header (props) {
       <li>Home</li>
       <li>Shopping Cart</li>
     </ul>
-    <span className="count"> {props.total} items in the bag</span>
+    <span className="count"> {FormatNumber(props.total, "",0)} items in the bag</span>
   </header>
     );
 }

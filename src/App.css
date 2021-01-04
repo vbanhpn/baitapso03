@@ -255,7 +255,7 @@ header .count {
 .summary {
   font-size: 1.2rem;
   text-align: right;
-  color:blue
+  color:blue;
 }
 
 .summary ul li {
