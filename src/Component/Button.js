@@ -1,6 +1,6 @@
-function Button(props) {
+function Button({name, onCheckoutClick}) {
   return (
-      <button type="button"> {props.name} </button>
+      <button onClick = {()=> onCheckoutClick()} type="button"  > {name} </button>
   );
 }
 export default Button;

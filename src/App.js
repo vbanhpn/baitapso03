@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import "./App.css";
 import Rowitem from "./Component/Rowitems";
 import Header from "./Component/Header";
@@ -5,19 +6,20 @@ import Promotion from "./Component/Promotion";
 import Summary from "./Component/Summary";
 import Button from "./Component/Button";
 import { useState } from "react";
+import { getPromotions } from "./Component/ListPromotion";
 
 let PRODUCTS = [
   {
     name: "Apple 1",
-    item: "1",
+    itemId: "1",
     description: "Delicious apple 1",
     src: "/img/anh1.jpg",
     price: 10.99,
-    quantity: 200,
+    quantity: 8,
   },
   {
     name: "Apple 2",
-    item: "2",
+    itemId: "2",
     description: "Delicious apple 2",
     src: "/img/anh2.jpg",
     price: 8.99,
@@ -27,45 +29,70 @@ let PRODUCTS = [
 
 function App() {
   let [products, setProducts] = useState(PRODUCTS);
+  let [inputPromotion, setInputPromotion] = useState("");
+  let [pecent, setPecent] = useState("");
+  function onChangeQuantity(newQuantity, item) {
+    const newProducts = products.map((p) => {
+      if (p.itemId !== item) {
+        return p;
+      }
+      let newProduct = { ...p, quantity: newQuantity };
+      return newProduct;
+    });
+    setProducts(newProducts);
+  }
+
   let totalitem = 0;
   let subtotal = 0;
-  let tax = 0;
-  var items = []; 
-  for (let i = 0; i < products.length; i++) {
-    let product = products[i];
-    items.push(
+  var items = products.map((p) => {
+    totalitem += p.quantity;
+    subtotal += p.price * p.quantity;
+    return (
       <Rowitem
-        key={product.name}
-        name={product.name}
-        item={product.item}
-        src={product.src}
-        price={product.price}
-        quantity={product.quantity}
-        description={product.description}  
-        onRemoveRowItem = {onRemoveRowItem} 
+        key={p.name}
+        name={p.name}
+        itemId={p.itemId}
+        src={p.src}
+        price={p.price}
+        quantity={p.quantity}
+        description={p.description}
+        onRemoveRowItem={onRemoveRowItem}
         onChangeQuantity={onChangeQuantity}
       ></Rowitem>
     );
-    totalitem += product.quantity;
-    subtotal += product.price * product.quantity; 
-  }
+  });
   function onRemoveRowItem(item) {
-    products =  products.filter( function (products) 
-    { 
-      return products.item !== item
-    }
-    );
+    products = products.filter(function (p) {
+      return p.itemId !== item;
+    });
     setProducts(products);
   }
-  function onChangeQuantity(item, newQuantity){
-    let newProducts = [...products];
-    let productIndex = newProducts.findIndex(function (product) {
-        return product.item === item;
-      });
-    newProducts[productIndex].quantity = newQuantity;
-    setProducts(newProducts);
+  let lstpromotion = getPromotions();
+
+  // function onChangeQuantity(item, newQuantity) {
+  //   let newProducts = [...products];
+  //   let productIndex = newProducts.findIndex(function (product) {
+  //     return product.item === item;
+  //   });
+  //   newProducts[productIndex].quantity = newQuantity;
+  //   setProducts(newProducts);
+  // }
+  // luu y den filter, map, inclue, some, find
+  // uncontroller: chỉ nhìn thấy sự thay đổi giá trị
+  //Controller : kiểm soát giá trị
+  function onGetPecent() {
+    // let pro = {};
+    let pro = lstpromotion.find((p) => {
+      if (p.code === inputPromotion) {
+        return p;
+      }
+    });
+    if (pro) setPecent(pro.pecent);
+    else setPecent(0);
   }
-  tax += subtotal * 0.1;
+  function handelClick() {
+    alert("Check out");
+  }
   return (
     <div>
       <Header total={totalitem}> </Header>
@@ -74,20 +101,22 @@ function App() {
       </section>
       <section className="container">
         <div className="promotion">
-          <Promotion></Promotion>
+          <Promotion
+            inputPromotion={inputPromotion}
+            setInputPromotion={setInputPromotion}
+            onGetPecent={() => {
+              onGetPecent();
+            }}
+          ></Promotion>
         </div>
-        <Summary
-          subtotal={subtotal}
-          tax={tax}
-          total={(subtotal + tax)}
-        ></Summary>
+        <Summary subtotal={subtotal} pecent={pecent}></Summary>
         <div className="checkout">
-          <Button name="Check out" > </Button> 
-          
-        </div> 
+          <Button name="Check out" onCheckoutClick={handelClick}>
+            {" "}
+          </Button>
+        </div>
       </section>
     </div>
   );
 }
-
 export default App;

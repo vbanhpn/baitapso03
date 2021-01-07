@@ -159,7 +159,7 @@ header .count {
 }
 
 .detail .description {
-  color: #7d7d7d;
+  color: #09f309;
   font-size: 1rem;
 }
 
@@ -224,7 +224,7 @@ header .count {
 
 .promotion > input {
   float: left;
-  width: 80%;
+  width: 60%;
   font-size: 1rem;
   padding: 0.5rem 0 0.5rem 1.8rem;
   border: 2px solid #16cc9b;
@@ -232,18 +232,18 @@ header .count {
 }
 
 .promotion:hover > input {
-  border-color: #f58551;
+  border-color: #f58551; 
 }
 
 .promotion > button {
   float: left;
-  width: 20%;
+  width: 40%;
   height: 2.4rem;
-  border-radius: 0 2rem 2rem 0;
+  border-radius: 0 2rem 2rem 0; 
 }
 
 .promotion:hover > button {
-  border-color: #f58551;
+  border-color: #16cc9b;
   background-color: #f58551;
 }
 
@@ -255,7 +255,7 @@ header .count {
 .summary {
   font-size: 1.2rem;
   text-align: right;
-  color:blue;
+  color: blue;
 }
 
 .summary ul li {
@@ -264,9 +264,16 @@ header .count {
 
 .summary ul li span {
   display: inline-block;
-  width: 30%; 
+  width: 30%;
 }
-
+.summary ul li hr {
+  width: 100%;
+  text-align:right;
+  margin-left: 0;
+  height: 5px;
+  color: #16cc9b;
+  background-color: #0dd3da;
+}
 .summary ul li.total {
   font-weight: bold;
 }
